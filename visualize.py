@@ -85,56 +85,6 @@ def generate_heatmap(df):
     return fig
 
 
-def main():
-    st.set_page_config(layout="wide")
-    
-    st.title("📊 大盘预测热力图")
-    
-    output_dir = 'predict_output'
-    
-    if not os.path.exists(output_dir):
-        st.error(f"❌ 预测输出目录不存在: {output_dir}")
-        st.info("请先运行 `uv run python predict.py --date 2026-06-24` 生成预测数据")
-        return
-    
-    csv_files = [f for f in os.listdir(output_dir) if f.endswith('.csv')]
-    if not csv_files:
-        st.error(f"❌ {output_dir} 目录中没有CSV文件")
-        st.info("请先运行 `uv run python predict.py --date 2026-06-24` 生成预测数据")
-        return
-    
-    selected_file = st.selectbox("选择预测日期", csv_files)
-    csv_path = os.path.join(output_dir, selected_file)
-    
-    try:
-        df = pd.read_csv(csv_path, encoding='utf-8-sig')
-        
-        df['行业'] = df['代码'].apply(get_etf_sector)
-        df['强度'] = df['预期收益'].abs()
-        df['风险等级'] = df['预期收益'].apply(
-            lambda x: 'HIGH' if x < -2 else ('MEDIUM' if x < -1 else 'LOW')
-        )
-        
-        st.plotly_chart(generate_heatmap(df), width='stretch')
-        
-        col1, col2, col3 = st.columns(3)
-        col1.metric("🔥 最强收益", 
-                   f"{df['预期收益'].max():+.2f}%",
-                   df.loc[df['预期收益'].idxmax(), '标的名称'])
-        col2.metric("💧 最大亏损", 
-                   f"{df['预期收益'].min():+.2f}%",
-                   df.loc[df['预期收益'].idxmin(), '标的名称'])
-        col3.metric("⚖️ 多空比", 
-                   f"{len(df[df['预期收益']>0])}:{len(df[df['预期收益']<0])}",
-                   f"均值 {df['预期收益'].mean():+.2f}%")
-        
-        st.subheader("📋 详细预测列表")
-        st.dataframe(df.sort_values('预期收益', ascending=False), width='stretch')
-        
-    except Exception as e:
-        st.error(f"❌ 加载数据失败: {str(e)}")
-
-
 def display_black_swan_analysis():
     st.subheader("🦢 黑天鹅分析")
     
