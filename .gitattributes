@@ -1,0 +1,19 @@
+# 统一换行符，避免跨平台协作时产生无意义的 diff
+* text=auto eol=lf
+
+# Windows 脚本保留 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# 二进制文件不做换行转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pth binary
+*.npy binary
+*.zip binary
+
+# 语言统计时把 Markdown 视为文档而非代码
+*.md linguist-documentation

@@ -1,0 +1,63 @@
+# ===== 个人凭证 / 配置（务必不入库）=====
+config.py
+.env
+.env.*
+*.token
+
+# ===== 运行时数据产物 =====
+data/
+models/
+output/
+predict_output/
+hedge_data/
+cache/
+
+# 注意：ETF.json 是静态的「标的代码 → 中文名」映射表（63 条），
+# 非运行时产物、不含敏感信息，因此随仓库分发，方便开箱即用。
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+venv/
+.venv/
+env/
+ENV/
+.uv/
+
+# ===== 测试 / 覆盖率 =====
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# ===== 编辑器 / 系统 =====
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 日志 / 临时 =====
+*.log
+*.tmp
+*.bak
+nul
+
+# 例外：docs/ 下的回测原始日志需要随仓库分发（作为结果可审计的凭证）
+!docs/*.log
+
+# ===== 打包 / 本地工作区 =====
+_dist/
+*.zip
+.workbuddy/

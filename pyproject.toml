@@ -1,0 +1,37 @@
+[project]
+name = "deepredict"
+version = "0.1.0"
+description = "ETF 全市场收益分布预测：用 Transformer 预测横截面分布，做状态择时与黑天鹅风控"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["quant", "quantitative-finance", "etf", "transformer", "pytorch", "backtest", "risk-management", "distribution-forecast"]
+dependencies = [
+    "numpy>=1.26.4",
+    "matplotlib>=3.8.0",
+    "scipy>=1.12.0",
+    "pandas>=2.0.0",
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "tushare>=1.4.0",
+    "streamlit>=1.58.0",
+    "plotly>=6.8.0",
+]
+
+# 可选数据源：QMT / xtquant（Windows 专属，需本机 QMT 环境）
+# 如需使用 QMT 数据源，请取消下面一行注释并按需安装：
+#   xtquant>=250516.1.1
+[project.optional-dependencies]
+qmt = ["xtquant>=250516.1.1"]
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
